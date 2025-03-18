@@ -13,14 +13,13 @@ RUN set -x \
     && apt-get install -y librdmacm1 libibumad3 librdmacm-dev libibverbs1 libibverbs-dev ibverbs-utils ibverbs-providers \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
-    
-WORKDIR /workspace
 
-RUN git clone https://github.com/SWivid/F5-TTS.git \
-    && cd F5-TTS \
+WORKDIR /app
+
+RUN git clone https://github.com/SWivid/F5-TTS.git . \
     && git submodule update --init --recursive \
     && pip install -e . --no-cache-dir
 
 ENV SHELL=/bin/bash
 
-WORKDIR /workspace/F5-TTS
+CMD ["python", "/app/src/app.py"]
